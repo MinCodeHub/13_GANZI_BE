@@ -43,3 +43,4 @@ out/
 ### MacOS ###
 .DS_Store
 /src/test/resources/application-local.yml
+.env
