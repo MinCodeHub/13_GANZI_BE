@@ -1,8 +1,13 @@
+FROM bellsoft/liberica-openjdk-alpine:17 AS build
+WORKDIR /app
+COPY . .
+
+RUN apk add --no-cache bash
+RUN chmod +x gradlew && ./gradlew --version && ./gradlew clean build -x test --stacktrace
+
 FROM bellsoft/liberica-openjdk-alpine:17
 WORKDIR /app
-
-# JAR은 로컬에서 build/libs/*.jar 으로 생성해서 이 위치로 복사해야 함
-COPY build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/*.jar app.jar
 
 VOLUME /tmp
 VOLUME /logs
