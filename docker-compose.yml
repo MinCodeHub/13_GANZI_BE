@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   mysql:
     image: mysql:8.0
@@ -9,19 +11,37 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci # 한글(UTF-8) 지원 설정
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - mysql-data:/var/lib/mysql # 데이터 영속성 유지 (컨테이너 삭제돼도 데이터 보존)
+      - mysql-data:/var/lib/mysql
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # 2. Redis 서비스 정의
   redis:
     image: redis:7.0-alpine
     container_name: talent-trade-redis
     ports:
-      - "6379:6379" # 호스트 포트:컨테이너 포트 (6379 포트를 호스트 PC로 노출)
+      - "6379:6379"
     restart: always
 
-# 볼륨 정의 (데이터 영속성 유지를 위해 필수)
+  app:
+    image: talenttrade-app:latest
+    container_name: talenttrade-app
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tradeTalent?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8080:8080"
+    restart: always
+
 volumes:
   mysql-data:
