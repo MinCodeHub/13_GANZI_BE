@@ -29,6 +29,9 @@ services:
     restart: always
 
   app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: talenttrade-app:latest
     container_name: talenttrade-app
     depends_on:
