@@ -7,7 +7,7 @@ RUN chmod +x gradlew && ./gradlew --version && ./gradlew clean build -x test --s
 
 FROM bellsoft/liberica-openjdk-alpine:17
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/build/libs/api-0.0.1-SNAPSHOT.jar app.jar
 
 VOLUME /tmp
 VOLUME /logs
