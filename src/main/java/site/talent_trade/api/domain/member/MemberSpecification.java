@@ -2,21 +2,19 @@ package site.talent_trade.api.domain.member;
 
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
-import site.talent_trade.api.domain.community.SortBy;
 
 public class MemberSpecification {
 
-  public static Specification<Member> orderBy(SortBy sortBy) {
-    if (sortBy == null) {
+  public static Specification<Member> orderBy(MemberSortBy memberSortBy) {
+    if (memberSortBy == null) {
       return null;
     }
-    return switch (sortBy) {
+    return switch (memberSortBy) {
       case REVIEW -> orderByReviewCnt();
       case SCORE -> orderByScoreAvg();
       default -> orderByCreatedAt();
     };
   }
-
   private static Specification<Member> orderByCreatedAt() {
     return (root, query, criteriaBuilder) -> {
       if (query == null) {

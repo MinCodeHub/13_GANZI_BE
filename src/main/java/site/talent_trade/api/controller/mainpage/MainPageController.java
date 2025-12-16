@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import site.talent_trade.api.domain.community.SortBy;
+import site.talent_trade.api.domain.community.CommunitySortBy;
+import site.talent_trade.api.domain.member.MemberSortBy;
 import site.talent_trade.api.domain.member.Talent;
 import site.talent_trade.api.dto.member.response.MemberListDTO;
 import site.talent_trade.api.dto.member.response.MemberPageDTO;
@@ -33,17 +34,38 @@ public class MainPageController {
   public ResponseDTO<MemberPageDTO> getMainPage(HttpServletRequest httpServletRequest,
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "talent", required = false) @Nullable Talent talent,
-      @RequestParam(name = "sortBy", required = false) @Nullable SortBy sortBy) {
+      @RequestParam(name = "memberSortBy", required = false) @Nullable MemberSortBy memberSortBy) {
     Long memberId = jwtProvider.validateToken(httpServletRequest);
-    return mainPageService.getMainPageMembers(memberId, page, talent, sortBy);
+    return mainPageService.getMainPageMembers(memberId, page, talent, memberSortBy);
   }
 
-  @GetMapping("/search")
+  //specification쓴거
+  @GetMapping("/search-spec")
   public ResponseDTO<MemberPageDTO> searchMembers(HttpServletRequest httpServletRequest,
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "sortBy", required = false) @Nullable SortBy sortBy,
+      @RequestParam(name = "memberSortBy", required = false) @Nullable MemberSortBy memberSortBy,
       @RequestParam(name = "keyword", required = false) @Nullable String query) {
     Long memberId = jwtProvider.validateToken(httpServletRequest);
-    return mainPageService.searchMembers(memberId, page, sortBy, query);
+    return mainPageService.searchSpecificationMembers(memberId, page, memberSortBy, query);
   }
+
+    @GetMapping("/search")
+    public ResponseDTO<MemberPageDTO> searchMembers(
+            HttpServletRequest httpServletRequest,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "talent", required = false) @Nullable Talent talent,
+            @RequestParam(name = "keyword", required = false) @Nullable String keyword,
+            @RequestParam(name = "memberSortBy", required = false) @Nullable MemberSortBy memberSortBy
+    ) {
+        Long memberId = jwtProvider.validateToken(httpServletRequest);
+
+        return mainPageService.searchMembers(
+                memberId,
+                page,
+                talent,
+                keyword,
+                memberSortBy
+        );
+    }
+
 }

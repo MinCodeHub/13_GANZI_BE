@@ -3,10 +3,8 @@ package site.talent_trade.api.controller.community;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import site.talent_trade.api.domain.community.SortBy;
-import site.talent_trade.api.domain.member.Talent;
+import site.talent_trade.api.domain.community.CommunitySortBy;
 import site.talent_trade.api.dto.commnuity.request.PostRequestDTO;
 import site.talent_trade.api.dto.commnuity.response.PostDetailDTO;
 import site.talent_trade.api.dto.commnuity.response.PostResponseDTO;
@@ -32,11 +30,11 @@ public class PostController {
     @GetMapping("/get")
     public ResponseDTO<List<PostResponseDTO>> getPostList(@RequestParam(value = "talent", required = false) String talent,
                                                           @RequestParam(value = "keyword", required = false) String keyword,
-                                                          @RequestParam(value = "sortBy", defaultValue = "LATEST") SortBy sortBy) {
+                                                          @RequestParam(value = "communitySortBy", defaultValue = "LATEST") CommunitySortBy communitySortBy) {
         log.info("talent: "+talent);
-        log.info("sortBy: "+sortBy);
+        log.info("sortBy: "+ communitySortBy);
         // 게시글 검색 및 필터링
-        return postService.getPostList(talent, keyword, sortBy);
+        return postService.getPostList(talent, keyword, communitySortBy);
     }
 
     // 게시글 작성(jwt 인증 필요)
