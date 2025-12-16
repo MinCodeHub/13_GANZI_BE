@@ -13,7 +13,7 @@ import site.talent_trade.api.domain.Timestamp;
 import site.talent_trade.api.domain.community.Comment;
 import site.talent_trade.api.domain.community.Post;
 import site.talent_trade.api.domain.community.PostSpecification;
-import site.talent_trade.api.domain.community.SortBy;
+import site.talent_trade.api.domain.community.CommunitySortBy;
 import site.talent_trade.api.domain.member.Member;
 import site.talent_trade.api.domain.notification.Notification;
 import site.talent_trade.api.dto.commnuity.request.PostRequestDTO;
@@ -78,7 +78,7 @@ public class PostServiceImpl implements PostService {
 
     //조회 및 검색 필터링
     @Override
-    public ResponseDTO<List<PostResponseDTO>> getPostList(String talent, String keyword, SortBy sortBy) {
+    public ResponseDTO<List<PostResponseDTO>> getPostList(String talent, String keyword, CommunitySortBy communitySortBy) {
         // 기본 Specification 초기화
         Specification<Post> spec = Specification.where(PostSpecification.hasTalent(talent));
 
@@ -91,9 +91,9 @@ public class PostServiceImpl implements PostService {
             System.out.println("keyword>>>>>" + keyword);
             spec = spec.and(PostSpecification.containsKeyword(keyword));
         }
-        System.out.println("sortBy>>>>>" + sortBy);
+        System.out.println("sortBy>>>>>" + communitySortBy);
         // 정렬 조건 추가
-        switch (sortBy) {
+        switch (communitySortBy) {
 
             case LATEST:
                 spec = spec.and(PostSpecification.latestFirst());

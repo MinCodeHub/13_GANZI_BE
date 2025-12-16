@@ -1,6 +1,6 @@
 package site.talent_trade.api.service.community;
 
-import site.talent_trade.api.domain.community.SortBy;
+import site.talent_trade.api.domain.community.CommunitySortBy;
 import site.talent_trade.api.dto.commnuity.request.PostRequestDTO;
 import site.talent_trade.api.dto.commnuity.response.PostDetailDTO;
 import site.talent_trade.api.dto.commnuity.response.PostResponseDTO;
@@ -22,7 +22,7 @@ public interface PostService {
     ResponseDTO<PostResponseDTO> savePost(PostRequestDTO postRequestDTO);
 
     //다중 필터 및 검색
-    ResponseDTO<List<PostResponseDTO>> getPostList(String talent,String keyword, SortBy sortBy);
+    ResponseDTO<List<PostResponseDTO>> getPostList(String talent,String keyword, CommunitySortBy communitySortBy);
 
     //글 조회 -> 조회할 때 hitCount + 1 해줘야 함
     ResponseDTO<PostDetailDTO> getPostDetail(Long postId,Long memberId);
