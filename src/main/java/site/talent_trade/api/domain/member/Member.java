@@ -28,6 +28,7 @@ import site.talent_trade.api.domain.notification.Notification;
 import site.talent_trade.api.domain.profile.Profile;
 import site.talent_trade.api.domain.review.Review;
 
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -85,23 +86,29 @@ public class Member {
   /*생성자*/
   @Builder
   public Member(String email, String password, String name, String nickname, String phone,
-      LocalDate birth, Gender gender) {
-    this.email = email;
-    this.password = password;
-    this.name = name;
-    this.nickname = nickname;
-    this.phone = phone;
-    this.birth = birth;
-    this.gender = gender;
+                LocalDate birth, Gender gender,
+                Talent myTalent, String myTalentDetail) {
 
-    this.messageLimit = 0;
-    LocalDateTime now = LocalDateTime.now();
-    this.lastLoginAt = now;
-    this.timestamp = new Timestamp(now);
-    this.profile = new Profile(this);
+      this.email = email;
+      this.password = password;
+      this.name = name;
+      this.nickname = nickname;
+      this.phone = phone;
+      this.birth = birth;
+      this.gender = gender;
+      this.myTalent = myTalent;
+      this.myTalentDetail = myTalentDetail;
+
+      LocalDateTime now = LocalDateTime.now();
+      this.messageLimit = 0;
+      this.lastLoginAt = now;
+      this.timestamp = new Timestamp(now);
+      this.profile = new Profile(this);
   }
 
-  /* 닉네임, 재능, 한 줄 소개 수정 메소드 */
+
+
+    /* 닉네임, 재능, 한 줄 소개 수정 메소드 */
   public void updateMember(String nickname, Talent myTalent, String myTalentDetail,
       Talent wishTalent,
       String myComment) {
