@@ -30,4 +30,7 @@ public interface PostService {
     //내가 작성한 글 조회
     ResponseDTO<List<PostResponseDTO>> findByMemberId(Long memberId);
 
+    //상세 조회 -> 비관적락 사용
+    ResponseDTO<PostDetailDTO> getPostDetail_rock(Long postId, Long memberId);
+
 }
