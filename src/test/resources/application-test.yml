@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  cloud:
+    aws:
+      s3:
+        bucket: talent-trade-v2
+        region: ap-northeast-2
+      credentials:
+        access-key: AKIA3FH
+        secret-key: 3iS8uvAyZ+I3
+
+service:
+  jwt:
+    secret-key: 4a15023777148b27342e2fab99feb51e67bea418d3132e307d7c94dad5f3ac76dfbbb9df01773d4edc2f7a0ad421ee82368d684a
+    access-expiration: 86400000
+    refresh-expiration: 86400000
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace # 최신 버전 권장 방식
