@@ -48,6 +48,7 @@ jobs:
            cp appspec.yml ./deploy/
            cp deploy.sh ./deploy/
            cp docker-compose.yml ./deploy/
+           cp Dockerfile ./deploy/
            zip -r -qq -j ./spring-build.zip ./deploy
           
       - name: Configure AWS credentials
