@@ -43,9 +43,11 @@ jobs:
         
       - name: Make zip file
         run: |
-          mkdir deploy
-          cp ./build/libs/*.jar ./deploy/
-          zip -r -qq -j ./spring-build.zip ./deploy
+          mkdir -p deploy
+           cp ./build/libs/*.jar ./deploy/
+           cp appspec.yml ./deploy/
+           cp deploy.sh ./deploy/
+           zip -r -qq -j ./spring-build.zip ./deploy
           
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -59,3 +61,12 @@ jobs:
           aws s3 cp \
             --region ap-northeast-2 \
             ./spring-build.zip s3://talent-trade-v2 
+
+      - name: CodeDeploy 배포 실행
+        run: |
+          aws deploy create-deployment \
+            --application-name tradeTalent-deploy \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name trade-talent-group \
+            --s3-location bucket=talent-trade-v2,bundleType=zip,key=spring-build.zip \
+            --region ap-northeast-2
