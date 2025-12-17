@@ -44,7 +44,7 @@ jobs:
       - name: Make zip file
         run: |
           mkdir -p deploy
-           cp ./build/libs/*.jar ./deploy/
+           cp ./build/libs/*-SNAPSHOT.jar ./deploy/
            cp appspec.yml ./deploy/
            cp deploy.sh ./deploy/
            cp docker-compose.yml ./deploy/
