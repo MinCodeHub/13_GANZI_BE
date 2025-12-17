@@ -21,6 +21,11 @@ public class SecurityConfig {
   protected SecurityFilterChain localCsrfConfigure(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                ).permitAll()
                 // WebSocket 엔드포인트는 인증 없이 허용
                 .requestMatchers("/chat/**").permitAll()
                 // API 요청은 인증 필요
